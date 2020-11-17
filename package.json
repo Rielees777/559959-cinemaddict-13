@@ -5,13 +5,33 @@
   "description": "Проект «Киноман» от HTML Academy",
   "scripts": {
     "eslint": "eslint src/**/*.js",
-    "test": "npm run eslint"
+    "test": "npm run eslint",
+    "build": "webpack --mode development",
+    "start": "webpack-dev-server --open"
   },
   "devDependencies": {
     "eslint": "7.13.0",
-    "eslint-config-htmlacademy": "0.6.0"
+    "eslint-config-htmlacademy": "0.6.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "3.11.0"
   },
   "engines": {
-    "node": "10"
+    "node": "12"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rielees777/559959-cinemaddict-13.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rielees777/559959-cinemaddict-13/issues"
+  },
+  "homepage": "https://github.com/Rielees777/559959-cinemaddict-13#readme",
+  "dependencies": {
+    "webpack-dev-server": "^3.11.0"
   }
 }
