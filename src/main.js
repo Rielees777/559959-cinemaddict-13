@@ -4,11 +4,14 @@ import { createSortFilterTemplate } from "./view/sort-filter.js"
 import { createLoadMoreButton } from "./view/load-more-button.js";
 import { createUserRank } from "./view/user-rank.js";
 import { createFilmCounterTemplate } from "./view/filmCounter.js"
-import { createFullFilmDescription } from "./view/film-description.js";
+//import { createFullFilmDescription } from "./view/film-description.js";
+import { generateFilmCard } from "./mock/film.js"
 
 const FILMS_COUNT = 5;
 const FILMS_EXTRA_COUNT = 2;
 
+const films = new Array(FILMS_COUNT).fill().map(generateFilmCard);
+console.log(films);
 /**
    * Функция render выполняет отрисовку компонента в указанном месте HTML документа
    * @param {HTMLElement} container блок HTML в который будет добавлен компонент
@@ -32,7 +35,7 @@ const siteFilmsList = siteMainElement.querySelector('.films');
 const siteFilmCard = siteFilmsList.querySelector('.films-list__container');
 
 for (let i = 0; i < FILMS_COUNT; i++) {
-  render(siteFilmCard, createFilmCard(), 'beforeend');
+  render(siteFilmCard, createFilmCard(films[i]), 'beforeend');
 }
 
 const siteShowMoreButton = siteFilmsList.querySelector('.films-list');
@@ -41,16 +44,16 @@ render(siteShowMoreButton, createLoadMoreButton(), 'beforeend');
 
 const siteFilmsListExtra = siteFilmsList.querySelectorAll('.films-list--extra');
 
-siteFilmsListExtra.forEach((section) => {
-  const siteFilmExtraCard = section.querySelector('.films-list__container');
-  for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-    render(siteFilmExtraCard, createFilmCard(), 'beforeend');
-  }
-})
+// siteFilmsListExtra.forEach((section) => {
+//   const siteFilmExtraCard = section.querySelector('.films-list__container');
+//   for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
+//     render(siteFilmExtraCard, createFilmCard(), 'beforeend');
+//   }
+// })
 
 const siteFooter = document.querySelector('.footer');
 const siteFilmCounter = siteFooter.querySelector('.footer__statistics');
 
 render(siteFilmCounter, createFilmCounterTemplate(), 'beforeend');
 
-render(siteFooter, createFullFilmDescription(), 'afterend');
+//render(siteFooter, createFullFilmDescription(), 'afterend');
