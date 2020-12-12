@@ -5,14 +5,12 @@ import { createLoadMoreButton } from "./view/load-more-button.js";
 import { createUserRank } from "./view/user-rank.js";
 import { createFilmCounterTemplate } from "./view/filmCounter.js";
 import { createFullFilmDescription } from "./view/film-description.js";
-import { generateCommentsCount, generateFilmCard } from "./mock/film.js";
-import { generateComments } from "./mock/film.js";
+import { generateFilmCard } from "./mock/film.js";
 
 const FILMS_COUNT = 15;
 const FILMS_EXTRA_COUNT = 2;
 
 const films = new Array(FILMS_COUNT).fill().map(generateFilmCard);
-const comments = new Array(FILMS_COUNT).fill().map(generateComments);
 
 /**
    * Функция render выполняет отрисовку компонента в указанном месте HTML документа
@@ -47,12 +45,12 @@ render(siteShowMoreButton, createLoadMoreButton(), 'beforeend');
 
 const siteFilmsListExtra = siteFilmsList.querySelectorAll('.films-list--extra');
 
-// siteFilmsListExtra.forEach((section) => {
-//   const siteFilmExtraCard = section.querySelector('.films-list__container');
-//   for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-//     render(siteFilmExtraCard, createFilmCard(), 'beforeend');
-//   }
-// })
+siteFilmsListExtra.forEach((section) => {
+  const siteFilmExtraCard = section.querySelector('.films-list__container');
+  for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
+    render(siteFilmExtraCard, createFilmCard(films[i]), 'beforeend');
+  }
+})
 
 
 const siteFilmCounter = siteFooter.querySelector('.footer__statistics');

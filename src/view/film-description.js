@@ -1,29 +1,23 @@
-import { generateCommentsCount } from "../mock/film.js"
 
-const createCommentTemplate = (comments) => {
-  const { commentsEmoji, commentsAuthor, commentsText, commentsDay } = comments;
-  return `<li class="film-details__comment">
-  <span class="film-details__comment-emoji">
-    <img src="${commentsEmoji}" width="55" height="55" alt="emoji-smile">
-  </span>
-    <div>
-      <p class="film-details__comment-text">${commentsText}</p>
-      <p class="film-details__comment-info">
-        <span class="film-details__comment-author">${commentsAuthor}</span>
-        <span class="film-details__comment-day">${commentsDay}</span>
-        <button class="film-details__comment-delete">Delete</button>
-      </p>
-    </div>
-    </li>`
-};
-
-
+import dayjs from "dayjs";
 export const createFullFilmDescription = (film) => {
-  const { title, originalTitle, poster, directors, writers, actors, releaseDate, rating, duration, genre, description } = film;
-
-  const commentsCount = generateCommentsCount();
-
-  const commentsList = createCommentTemplate(comments)
+  const { title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments } = film;
+  const date = dayjs(realizeDate).format('DD MMMM YYYY')
+  const createCommentsTemplate = () => {
+    return comments.map((comment) => `<li class="film-details__comment">
+    <span class="film-details__comment-emoji">
+      <img src="${comment.commentsEmoji}" width="55" height="55" alt="emoji-smile">
+    </span>
+      <div>
+        <p class="film-details__comment-text">${comment.commentsText}</p>
+        <p class="film-details__comment-info">
+          <span class="film-details__comment-author">${comment.commentsAuthor}</span>
+          <span class="film-details__comment-day">${comment.commentsDay}</span>
+          <button class="film-details__comment-delete">Delete</button>
+        </p>
+      </div>
+      </li>`).join(``);
+  };
 
   return `<section class="film-details">
     <form class="film-details__inner" action = "#" method = "get" >
@@ -34,7 +28,7 @@ export const createFullFilmDescription = (film) => {
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
             <img class="film-details__poster-img" src="${poster}" alt="">
-              <p class="film-details__age">18+</p>
+              <p class="film-details__age">${ageLimit}+</p>
         </div>
             <div class="film-details__info">
               <div class="film-details__info-head">
@@ -61,7 +55,7 @@ export const createFullFilmDescription = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">30 March 1945</td>
+                  <td class="film-details__cell">${date}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
@@ -69,7 +63,7 @@ export const createFullFilmDescription = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
-                  <td class="film-details__cell">USA</td>
+                  <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
@@ -92,8 +86,8 @@ export const createFullFilmDescription = (film) => {
     </div>
     <div class="film-details__bottom-container">
         <section class="film-details__comments-wrap">
-                  <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
-                  <ul class="film-details__comments-list">${commentsList}</ul>
+                  <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
+                  <ul class="film-details__comments-list">${createCommentsTemplate()}</ul>
                           <div class="film-details__new-comment">
                             <div class="film-details__add-emoji-label">0</div>
                             <label class="film-details__comment-label">
