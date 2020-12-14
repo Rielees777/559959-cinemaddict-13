@@ -1,7 +1,7 @@
 # Проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Игорь Кротько](https://up.htmlacademy.ru/ecmascript/13/user/559959).
-* Наставник: `Андрей Слесаренко`.
+* Наставник: `Артем Макаров`.
 
 ---
 
