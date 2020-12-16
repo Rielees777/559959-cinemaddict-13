@@ -20,6 +20,6 @@ export default class ShowMoreButton {
     return this._element;
   }
   removeElement() {
-    this_element = null;
+    this._element = null;
   }
 }

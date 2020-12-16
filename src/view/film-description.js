@@ -1,5 +1,7 @@
 
 import dayjs from "dayjs";
+import {createElement} from "../utils.js"
+
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
   <span class="film-details__comment-emoji">
@@ -15,7 +17,7 @@ const createCommentsTemplate = (comments) => {
     </div>
     </li>`).join(``);
 };
-export const createFullFilmDescription = (film) => {
+const createFullFilmDescription = (film) => {
   const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments} = film;
   const date = dayjs(realizeDate).format('DD MMMM YYYY')
 
@@ -114,3 +116,24 @@ export const createFullFilmDescription = (film) => {
   </form>
 </section>`;
 };
+
+export default class FullFilmDescription {
+  constructor(film) {
+    this._film = film
+    this._element = null;
+  };
+
+  getTemplate() {
+    return createFullFilmDescription(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+  removeElement() {
+    this._element = null;
+  }
+}

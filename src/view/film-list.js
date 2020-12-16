@@ -21,6 +21,6 @@ export default class FilmListView {
     return this._element;
   }
   removeElement() {
-    this_element = null;
+    this._element = null;
   }
 }
