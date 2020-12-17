@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js"
+import {createElement} from "../utils.js";
 
 const createFilmList = () => {
   return `<div class="films-list__container"></div>`;
@@ -8,7 +8,7 @@ const createFilmList = () => {
 export default class FilmListView {
   constructor() {
     this._element = null;
-  };
+  }
 
   getTemplate() {
     return createFilmList();

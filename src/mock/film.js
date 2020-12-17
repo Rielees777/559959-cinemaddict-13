@@ -1,14 +1,14 @@
 
-import {getRandomInteger, getRandomElement} from "../utils.js"
-import {filmsMock} from "./filmsMock.js"
-import {commentsMock} from "./commentsMock.js"
+import {getRandomInteger, getRandomElement} from "../utils.js";
+import {filmsMock} from "./filmsMock.js";
+import {commentsMock} from "./commentsMock.js";
 
 
 export const generateComment = () => ({
-  commentsEmoji: getRandomElement(commentsMock.emojiComments),
-  commentsText: getRandomElement(commentsMock.textComments),
-  commentsAuthor: getRandomElement(commentsMock.authorComments),
-  commentsDay: getRandomElement(commentsMock.dayComments),
+  commentsEmoji: getRandomElement(commentsMock.emojis),
+  commentsText: getRandomElement(commentsMock.texts),
+  commentsAuthor: getRandomElement(commentsMock.authors),
+  commentsDay: getRandomElement(commentsMock.days),
 });
 
 const getComments = () => {
@@ -16,15 +16,15 @@ const getComments = () => {
   const comments = [];
   for (let i = 0; i < commentsCount; i++) {
     comments.push(generateComment());
-  };
+  }
   return comments;
-}
+};
 
 const generateDate = () => {
   const day = getRandomInteger(1, 28);
   const month = getRandomInteger(1, 12);
   const year = getRandomInteger(1920, 2000);
-  const date = `${month}-${day}-${year}`
+  const date = `${month}-${day}-${year}`;
   return date;
 };
 

@@ -1,23 +1,23 @@
 import dayjs from "dayjs";
-import {createElement} from "../utils.js"
+import {createElement} from "../utils.js";
 
 const MAX_LENGTH_DESCR = 140;
 const getFilterClassName = (filter) => {
   const filterClassName = filter
     ? `film-card__controls-item--active`
     : ``;
-  return filterClassName
-}
+  return filterClassName;
+};
 const getShortDescription = (text) => {
   const shortDescription = text.length > MAX_LENGTH_DESCR
-    ? text.slice(0, MAX_LENGTH_DESCR) + '...'
+    ? text.slice(0, MAX_LENGTH_DESCR) + `...`
     : text;
-  return shortDescription
-}
+  return shortDescription;
+};
 const createFilmCard = (film) => {
   const {title, poster, description, comments, realizeDate, rating, duration, genre, isWatchList, isHistoryList, isFavoriteList} = film;
 
-  const date = dayjs(realizeDate).format('YYYY')
+  const date = dayjs(realizeDate).format(`YYYY`);
 
   return (`<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
@@ -38,7 +38,7 @@ export default class FilmCard {
   constructor(film) {
     this._film = film;
     this._element = null;
-  };
+  }
 
   getTemplate() {
     return createFilmCard(this._film);

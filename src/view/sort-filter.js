@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js"
+import {createElement} from "../utils.js";
 
 const createSortFilterTemplate = () => {
   return `<ul class="sort">
@@ -11,7 +11,7 @@ const createSortFilterTemplate = () => {
 export default class SortFilter {
   constructor() {
     this._element = null;
-  };
+  }
 
   getTemplate() {
     return createSortFilterTemplate();

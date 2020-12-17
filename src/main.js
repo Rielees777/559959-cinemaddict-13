@@ -26,8 +26,8 @@ const filter = generateFilter(films);
    */
 
 
-const siteHeaderElement = document.querySelector('.header');
-const siteMainElement = document.querySelector('.main');
+const siteHeaderElement = document.querySelector(`.header`);
+const siteMainElement = document.querySelector(`.main`);
 
 renderElement(siteHeaderElement, new UserRank().getElement(), RenderPosition.BEFOREEND);
 renderElement(siteMainElement, new SiteMenuView(filter).getElement(), RenderPosition.AFTERBEGIN);
@@ -36,9 +36,9 @@ renderElement(siteMainElement, new SortFilter().getElement(), RenderPosition.BEF
 const filmBoardComponent = new FilmBoardView();
 renderElement(siteMainElement, filmBoardComponent.getElement(), RenderPosition.BEFOREEND);
 
-const siteFilms = filmBoardComponent.getElement().querySelector('.films-list');
+const siteFilms = filmBoardComponent.getElement().querySelector(`.films-list`);
 const filmsListComponent = new FilmListView();
-renderElement(siteFilms, filmsListComponent.getElement(), RenderPosition.BEFOREEND)
+renderElement(siteFilms, filmsListComponent.getElement(), RenderPosition.BEFOREEND);
 
 const renderFilm = (filmElement, film) => {
   const filmCardComponent = new FilmCard(film);
@@ -50,26 +50,26 @@ const renderFilm = (filmElement, film) => {
     filmElement.removeChild(fullFilmDescriptionComponent.getElement());
   };
 
-  filmCardComponent.getElement().querySelector('.film-card__title').addEventListener('click', () => {
+  filmCardComponent.getElement().querySelector(`.film-card__title`).addEventListener(`click`, () => {
     popapOpen();
   });
-  filmCardComponent.getElement().querySelector('.film-card__poster').addEventListener('click', () => {
+  filmCardComponent.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
     popapOpen();
   });
-  filmCardComponent.getElement().querySelector('.film-card__comments').addEventListener('click', () => {
+  filmCardComponent.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, () => {
     popapOpen();
   });
 
 
-  fullFilmDescriptionComponent.getElement().querySelector('.film-details__close-btn').addEventListener('click', () => {
+  fullFilmDescriptionComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
     popapClose();
   });
 
-  renderElement(filmElement, filmCardComponent.getElement(), RenderPosition.BEFOREEND)
-}
+  renderElement(filmElement, filmCardComponent.getElement(), RenderPosition.BEFOREEND);
+};
 
 for (let i = 0; i < Math.min(films.length, FILMS_COUNT_PER_STEP); i++) {
-  renderFilm(filmsListComponent.getElement(), films[i])
+  renderFilm(filmsListComponent.getElement(), films[i]);
 }
 
 
@@ -78,11 +78,11 @@ if (films.length > FILMS_COUNT_PER_STEP) {
   const showMoreButtonComponent = new ShowMoreButton();
   renderElement(siteFilms, showMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
 
-  siteFilms.addEventListener('click', (evt) => {
+  siteFilms.addEventListener(`click`, (evt) => {
     evt.preventDefault();
     films
       .slice(renderedFilmsCount, renderedFilmsCount + FILMS_COUNT_PER_STEP)
-      .forEach((films) => renderFilm(filmsListComponent.getElement(), films));
+      .forEach((film) => renderFilm(filmsListComponent.getElement(), film));
 
     renderedFilmsCount += FILMS_COUNT_PER_STEP;
     if (renderedFilmsCount >= films.length) {
@@ -92,18 +92,18 @@ if (films.length > FILMS_COUNT_PER_STEP) {
   });
 }
 
-const siteFilmsListExtra = filmBoardComponent.getElement().querySelectorAll('.films-list--extra');
+const siteFilmsListExtra = filmBoardComponent.getElement().querySelectorAll(`.films-list--extra`);
 
 siteFilmsListExtra.forEach((section) => {
-  const siteFilmExtraCard = section.querySelector('.films-list__container');
+  const siteFilmExtraCard = section.querySelector(`.films-list__container`);
   for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-    renderElement(siteFilmExtraCard, new FilmCard(films[i]).getElement(), 'beforeend');
+    renderElement(siteFilmExtraCard, new FilmCard(films[i]).getElement(), `beforeend`);
   }
-})
+});
 
 
-const siteFooter = document.querySelector('.footer');
-const siteFilmCounter = siteFooter.querySelector('.footer__statistics');
+const siteFooter = document.querySelector(`.footer`);
+const siteFilmCounter = siteFooter.querySelector(`.footer__statistics`);
 
 renderTemplate(siteFilmCounter, new FilmCounter().getTemplate(), RenderPosition.BEFOREEND);
 

@@ -5,7 +5,7 @@ const filmToFilterMap = {
     .filter((film) => film.isHistoryList),
   favorite: (films) => films
     .filter((film) => film.isFavoriteList)
-}
+};
 
 export const generateFilter = (films) => {
   return Object.entries(filmToFilterMap).map(([filterName, filterFilmsCount]) => {

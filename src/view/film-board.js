@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js"
+import {createElement} from "../utils.js";
 
 const createFilmBoard = () => {
   return `<section class="films">
@@ -20,7 +20,7 @@ const createFilmBoard = () => {
 export default class FilmBoardView {
   constructor() {
     this._element = null;
-  };
+  }
 
   getTemplate() {
     return createFilmBoard();

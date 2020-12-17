@@ -1,13 +1,13 @@
-import {createElement} from "../utils.js"
+import {createElement} from "../utils.js";
 
 const createFilmCounterTemplate = () => {
-  return '<p>130 291 movies inside</p>';
+  return `<p>130 291 movies inside</p>`;
 };
 
 export default class FilmCounter {
   constructor() {
     this._element = null;
-  };
+  }
 
   getTemplate() {
     return createFilmCounterTemplate();
