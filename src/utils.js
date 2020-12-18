@@ -3,7 +3,7 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`,
 };
 
-export const handleElements = ['film-card__title', 'film-card__poster', 'film-card__comments']
+export const handleElements = [`film-card__title`, `film-card__poster`, `film-card__comments`];
 
 // Функция генерирует случайное число в указанном диапазоне
 export const getRandomInteger = (a = 0, b = 1) => {
@@ -45,9 +45,3 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-
-export const elementHandler = (container, currentEvent) => {
-  container.querySelector(`.film-card`).addEventListener(`click`, event => {
-    if (event.target.className === `film-card__title`) {console.log(currentEvent)}
-  });
-};

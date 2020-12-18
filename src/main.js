@@ -46,14 +46,14 @@ const renderFilm = (filmElement, film) => {
 
   const popapClose = () => {
     filmElement.removeChild(fullFilmDescriptionComponent.getElement());
-    siteBodyContaner.classList.remove(`hide-overflow`)
+    siteBodyContaner.classList.remove(`hide-overflow`);
   };
 
   const onEscapeKeyDown = (evt) => {
     if (evt.key === `Escape` || evt.key === `Esc`) {
       evt.preventDefault();
       popapClose();
-      document.removeEventListener('keydown', onEscapeKeyDown);
+      document.removeEventListener(`keydown`, onEscapeKeyDown);
     }
   };
 
@@ -62,12 +62,12 @@ const renderFilm = (filmElement, film) => {
     if (handleElements.includes(evt.target.className)) {
       popapOpen();
       document.addEventListener(`keydown`, onEscapeKeyDown);
-    };
+    }
   });
 
   fullFilmDescriptionComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
     popapClose();
-    document.removeEventListener('keydown', onEscapeKeyDown);
+    document.removeEventListener(`keydown`, onEscapeKeyDown);
   });
 };
 
