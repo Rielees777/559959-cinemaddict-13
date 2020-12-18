@@ -3,6 +3,8 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`,
 };
 
+export const handleElements = ['film-card__title', 'film-card__poster', 'film-card__comments']
+
 // Функция генерирует случайное число в указанном диапазоне
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -18,7 +20,14 @@ export const getRandomElement = (items) => {
   return items[randomIndex];
 };
 
-export const renderElement = (container, element, place) => {
+/**
+   * Функция render выполняет отрисовку компонента в указанном месте HTML документа
+   * @param {HTMLElement} container блок HTML в который будет добавлен компонент
+   * @param {HTMLElement} template сам компонент для добавления в документ
+   * @param {string} place строка определяющая позицию добавляемого компонента по отношению к блоку HTML
+   */
+
+export const render = (container, element, place) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
       container.prepend(element);
@@ -29,13 +38,16 @@ export const renderElement = (container, element, place) => {
   }
 };
 
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
 
   return newElement.firstChild;
+};
+
+
+export const elementHandler = (container, currentEvent) => {
+  container.querySelector(`.film-card`).addEventListener(`click`, event => {
+    if (event.target.className === `film-card__title`) {console.log(currentEvent)}
+  });
 };
