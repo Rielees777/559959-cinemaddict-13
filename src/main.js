@@ -15,7 +15,7 @@ import {render, RenderPosition} from "./utils.js";
 const FILMS_COUNT = 15;
 const FILMS_COUNT_PER_STEP = 5;
 const FILMS_EXTRA_COUNT = 2;
-const handleElements = [`film-card__title`, `film-card__poster`, `film-card__comments`];
+
 
 const films = new Array(FILMS_COUNT).fill().map(generateFilm);
 const filter = generateFilter(films);
@@ -60,14 +60,12 @@ const renderFilm = (filmElement, film) => {
   };
 
   render(filmElement, filmCardComponent.getElement(), RenderPosition.BEFOREEND);
-  filmCardComponent.getElement().addEventListener(`click`, (evt) => {
-    if (handleElements.includes(evt.target.className)) {
-      popapOpen();
-      document.addEventListener(`keydown`, onEscapeKeyDown);
-    }
+  filmCardComponent.setOpenPopapHandler(() => {
+    popapOpen();
+    document.addEventListener(`keydown`, onEscapeKeyDown);
   });
 
-  fullFilmDescriptionComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
+  fullFilmDescriptionComponent.setClosePopapHandler(() => {
     popapClose();
     document.removeEventListener(`keydown`, onEscapeKeyDown);
   });
@@ -83,8 +81,7 @@ if (films.length > FILMS_COUNT_PER_STEP) {
   const showMoreButtonComponent = new ShowMoreButton();
   render(siteFilms, showMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
 
-  showMoreButtonComponent.getElement().addEventListener(`click`, (evt) => {
-    evt.preventDefault();
+  showMoreButtonComponent.setClickHandler(() => {
     films
       .slice(renderedFilmsCount, renderedFilmsCount + FILMS_COUNT_PER_STEP)
       .forEach((film) => renderFilm(filmsListComponent.getElement(), film));

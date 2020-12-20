@@ -120,9 +120,21 @@ export default class FullFilmDescription extends Abstract {
   constructor(film) {
     super();
     this._film = film;
+
+    this._closePopapHandler = this._closePopapHandler.bind(this);
   }
 
   getTemplate() {
     return createFullFilmDescription(this._film);
+  }
+
+  _closePopapHandler(evt) {
+    evt.preventDefault();
+    this._closePopapHandler.closePopap();
+  }
+
+  setClosePopapHandler(callback) {
+    this._closePopapHandler.closePopap = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopapHandler);
   }
 }
