@@ -9,11 +9,13 @@ import FilmCounter from "./view/filmCounter.js";
 import FullFilmDescription from "./view/film-description.js";
 import {generateFilm} from "./mock/film.js";
 import {generateFilter} from "./mock/filter.js";
-import {render, RenderPosition, handleElements} from "./utils.js";
+import {render, RenderPosition} from "./utils.js";
+
 
 const FILMS_COUNT = 15;
 const FILMS_COUNT_PER_STEP = 5;
 const FILMS_EXTRA_COUNT = 2;
+const handleElements = [`film-card__title`, `film-card__poster`, `film-card__comments`];
 
 const films = new Array(FILMS_COUNT).fill().map(generateFilm);
 const filter = generateFilter(films);

@@ -3,8 +3,6 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`,
 };
 
-export const handleElements = [`film-card__title`, `film-card__poster`, `film-card__comments`];
-
 // Функция генерирует случайное число в указанном диапазоне
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
