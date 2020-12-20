@@ -40,7 +40,7 @@ export default class FilmCard extends Abstract {
     super();
     this._film = film;
 
-    this._openPopapHandler = this._openPopapHandler.bind(this)
+    this._openPopapHandler = this._openPopapHandler.bind(this);
   }
 
   getTemplate() {
