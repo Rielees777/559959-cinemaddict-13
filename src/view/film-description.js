@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {createElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
@@ -116,23 +116,25 @@ const createFullFilmDescription = (film) => {
 </section>`;
 };
 
-export default class FullFilmDescription {
+export default class FullFilmDescription extends Abstract {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+
+    this._closePopapHandler = this._closePopapHandler.bind(this);
   }
 
   getTemplate() {
     return createFullFilmDescription(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  _closePopapHandler(evt) {
+    evt.preventDefault();
+    this._closePopapHandler.closePopap();
   }
-  removeElement() {
-    this._element = null;
+
+  setClosePopapHandler(callback) {
+    this._closePopapHandler.closePopap = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopapHandler);
   }
 }

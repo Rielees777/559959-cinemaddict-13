@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const createSortFilterTemplate = () => {
   return `<ul class="sort">
@@ -8,22 +8,9 @@ const createSortFilterTemplate = () => {
 </ul>`;
 };
 
-export default class SortFilter {
-  constructor() {
-    this._element = null;
-  }
+export default class SortFilter extends Abstract {
 
   getTemplate() {
     return createSortFilterTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-  removeElement() {
-    this._element = null;
   }
 }

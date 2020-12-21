@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
-import {createElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const MAX_LENGTH_DESCR = 140;
+const handleElements = [`film-card__title`, `film-card__poster`, `film-card__comments`];
 const getFilterClassName = (filter) => {
   const filterClassName = filter
     ? `film-card__controls-item--active`
@@ -34,23 +35,27 @@ const createFilmCard = (film) => {
   );
 };
 
-export default class FilmCard {
+export default class FilmCard extends Abstract {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+
+    this._openPopapHandler = this._openPopapHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCard(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
+  _openPopapHandler(evt) {
+    evt.preventDefault();
+    if (handleElements.includes(evt.target.className)) {
+      this._callback.openPopap();
     }
-    return this._element;
   }
-  removeElement() {
-    this._element = null;
+
+  setOpenPopapHandler(callback) {
+    this._callback.openPopap = callback;
+    this.getElement().addEventListener(`click`, this._openPopapHandler);
   }
 }
