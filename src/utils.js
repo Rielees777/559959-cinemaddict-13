@@ -1,3 +1,5 @@
+import Abstract from "./view/abstract";
+
 export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
@@ -18,20 +20,22 @@ export const getRandomElement = (items) => {
   return items[randomIndex];
 };
 
-/**
-   * Функция render выполняет отрисовку компонента в указанном месте HTML документа
-   * @param {HTMLElement} container блок HTML в который будет добавлен компонент
-   * @param {HTMLElement} template сам компонент для добавления в документ
-   * @param {string} place строка определяющая позицию добавляемого компонента по отношению к блоку HTML
-   */
 
-export const render = (container, element, place) => {
+export const render = (container, child, place) => {
+
+  if (container instanceof Abstract) {
+    container = container.getElement();
+  }
+  if (child instanceof Abstract) {
+    child = child.getElement();
+  }
+
   switch (place) {
     case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
+      container.prepend(child);
       break;
     case RenderPosition.BEFOREEND:
-      container.append(element);
+      container.append(child);
       break;
   }
 };
