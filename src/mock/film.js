@@ -1,8 +1,9 @@
 
-import {getRandomInteger, getRandomElement} from "../utils.js";
+import {getRandomInteger, getRandomElement} from "../utils/common.js";
 import {filmsMock} from "./filmsMock.js";
 import {commentsMock} from "./commentsMock.js";
 
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
 
 export const generateComment = () => ({
   commentsEmoji: getRandomElement(commentsMock.emojis),
@@ -31,6 +32,7 @@ const generateDate = () => {
 
 export const generateFilm = () => {
   return {
+    id: generateId(),
     title: getRandomElement(filmsMock.titles),
     originalTitle: getRandomElement(filmsMock.titles),
     poster: getRandomElement(filmsMock.posters),
