@@ -1,8 +1,8 @@
 import FilmListView from "../view/film-list.js";
 import FilmBoardView from "../view/film-board.js";
 import FilmWrapView from "../view/film-wrap.js";
-import FilmPresenter from "./film.js"
-import {updateItem} from "../utils/common.js"
+import FilmPresenter from "./film.js";
+import {updateItem} from "../utils/common.js";
 import ShowMoreButton from "../view/load-more-button.js";
 import {remove, render, RenderPosition} from "../utils/render.js";
 
@@ -69,7 +69,7 @@ export default class Board {
   _clearFilmList() {
     Object
       .values(this._filmPresenter)
-      .forEach((presenter) => presenter.destroy())
+      .forEach((presenter) => presenter.destroy());
     this._filmPresenter = {};
     this._renderedFilmsCount = FILMS_COUNT_PER_STEP;
     remove(this._showMoreButtonComponent);

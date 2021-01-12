@@ -41,14 +41,14 @@ export const replace = (newChild, oldChild) => {
     newChild = newChild.getElement();
   }
 
-  const parent = oldChild.parentElement
+  const parent = oldChild.parentElement;
 
   if (parent === null || oldChild === null || newChild === null) {
     throw new Error(`Can't replace unexisting elements`);
   }
 
   parent.replaceChild(newChild, oldChild);
-}
+};
 
 export const remove = (component) => {
   if (!(component instanceof Abstract)) {
@@ -56,4 +56,4 @@ export const remove = (component) => {
   }
   component.getElement().remove();
   component.removeElement();
-}
+};

@@ -60,7 +60,7 @@ export default class Film {
   _handleOpenPopup() {
     this._siteBodyContaner.appendChild(this._fullFilmComponent.getElement());
     this._siteBodyContaner.className = `hide-overflow`;
-    document.addEventListener('keydown', this._escKeyDownHandler);
+    document.addEventListener(`keydown`, this._escKeyDownHandler);
   }
 
   _handleWatchlistClick() {
@@ -97,7 +97,7 @@ export default class Film {
     );
   }
 
-  _handleClosePopup(film) {
+  _handleClosePopup() {
     this._siteBodyContaner.removeChild(this._fullFilmComponent.getElement());
     this._siteBodyContaner.classList.remove(`hide-overflow`);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
