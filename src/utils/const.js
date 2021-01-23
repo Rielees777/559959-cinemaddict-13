@@ -1,4 +1,3 @@
-import {createElement} from "./render";
 
 export const COMMONCONST = {
   emodjiList: [
@@ -16,4 +15,4 @@ export const emodjIcon = (data) => {
   imgage.height = 55;
   imgage.alt = `emoji-${data}`;
   return imgage;
-}
+};

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import Smart from "./smart.js";
-import {COMMONCONST, emodjIcon} from "../utils/const.js"
+import {COMMONCONST, emodjIcon} from "../utils/const.js";
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
   <span class="film-details__comment-emoji">
@@ -26,7 +26,7 @@ const createEmodjiList = (emotion) => {
     <label class="film-details__emoji-label" for="emoji-${emodji}">
     <img src="./images/emoji/${emodji}.png" width="30" height="30" alt="emoji"></label>
     `).join(``);
-}
+};
 
 const createFullFilmDescription = (film) => {
   const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments} = film;
@@ -123,7 +123,7 @@ export default class FullFilmDescription extends Smart {
     this._data = {
       text: ``,
       emodji: ``
-    }
+    };
 
     this._scrollPosition = 0;
 
@@ -147,7 +147,7 @@ export default class FullFilmDescription extends Smart {
   }
 
   _setScrollPosition() {
-    this._scrollPosition = this._element.scrollTop
+    this._scrollPosition = this._element.scrollTop;
   }
 
   _restoreScrollPosition() {
