@@ -1,10 +1,10 @@
 
 export const commentsMock = {
   emojis: [
-    `./images/emoji/smile.png`,
-    `./images/emoji/sleeping.png`,
-    `./images/emoji/puke.png`,
-    `./images/emoji/angry.png`
+    `smile`,
+    `sleeping`,
+    `puke`,
+    `angry`
   ],
   texts: [
     `Interesting setting and a good cast`,

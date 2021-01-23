@@ -1,10 +1,10 @@
 import dayjs from "dayjs";
-import Abstract from "./abstract.js";
-
+import Smart from "./smart.js";
+import {COMMONCONST, emodjIcon} from "../utils/const.js"
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
   <span class="film-details__comment-emoji">
-    <img src="${comment.commentsEmoji}" width="55" height="55" alt="emoji-smile">
+    <img src="./images/emoji/${comment.commentsEmoji}.png" width="55" height="55" alt="emoji-${comment.commentsEmoji}">
   </span>
     <div>
       <p class="film-details__comment-text">${comment.commentsText}</p>
@@ -16,6 +16,18 @@ const createCommentsTemplate = (comments) => {
     </div>
     </li>`).join(``);
 };
+
+
+const checkFlagStatus = (value) => value ? `checked` : ``;
+
+const createEmodjiList = (emotion) => {
+  return COMMONCONST.emodjiList.map((emodji) =>
+    ` <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emodji}" value="${emodji}" ${checkFlagStatus(emodji === emotion)}>
+    <label class="film-details__emoji-label" for="emoji-${emodji}">
+    <img src="./images/emoji/${emodji}.png" width="30" height="30" alt="emoji"></label>
+    `).join(``);
+}
+
 const createFullFilmDescription = (film) => {
   const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments} = film;
   const date = dayjs(realizeDate).format(`DD MMMM YYYY`);
@@ -89,48 +101,83 @@ const createFullFilmDescription = (film) => {
         <section class="film-details__comments-wrap">
                   <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
                   <ul class="film-details__comments-list">${createCommentsTemplate(comments)}</ul>
-                          <div class="film-details__new-comment">
-                            <div class="film-details__add-emoji-label">0</div>
-                            <label class="film-details__comment-label">
-                              <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
-                            </label>
-                            <div class="film-details__emoji-list">
-                              <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-                                <label class="film-details__emoji-label" for="emoji-smile">
-                                  <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji"></label>
-                                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-                                    <label class="film-details__emoji-label" for="emoji-sleeping">
-                                      <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji"></label>
-                                      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-                                        <label class="film-details__emoji-label" for="emoji-puke">
-                                          <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji"></label>
-                                          <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-                                            <label class="film-details__emoji-label" for="emoji-angry">
-                                              <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-            </label>
-          </div>
-        </div>
+  <div class="film-details__new-comment">
+  <div class="film-details__add-emoji-label"></div>
+   <label class="film-details__comment-label">
+    <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+   </label>
+   <div class="film-details__emoji-list">
+   ${createEmodjiList()}
+   </div>
+  </div>
       </section>
     </div>
   </form>
 </section>`;
 };
 
-export default class FullFilmDescription extends Abstract {
+export default class FullFilmDescription extends Smart {
   constructor(film) {
     super();
     this._film = film;
+    this._data = {
+      text: ``,
+      emodji: ``
+    }
+
+    this._scrollPosition = 0;
 
     this._closePopapHandler = this._closePopapHandler.bind(this);
+    this._emodjiePickerHandler = this._emodjiePickerHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
   getTemplate() {
     return createFullFilmDescription(this._film);
   }
 
+  _setInnerHandlers() {
+    this.getElement()
+      .querySelectorAll(`.film-details__emoji-item`)
+      .forEach((element) => {
+        element.addEventListener(`change`, this._emodjiePickerHandler);
+      });
+
+  }
+
+  _setScrollPosition() {
+    this._scrollPosition = this._element.scrollTop
+  }
+
+  _restoreScrollPosition() {
+    this._element.scrollTo({top: this._scrollPosition});
+  }
+
   _closePopapHandler(evt) {
     evt.preventDefault();
     this._closePopapHandler.closePopap();
+  }
+
+  _emodjiePickerHandler(evt) {
+    evt.preventDefault();
+    this._setScrollPosition();
+    this.updateData({
+      emodji: evt.target.value
+    });
+
+    const emodjiPosition = this.getElement().querySelector(`.film-details__add-emoji-label`);
+    if (emodjiPosition.firstChild) {
+      emodjiPosition.firstChild.remove();
+    }
+    emodjiPosition.append(emodjIcon(evt.target.value));
+
+    this._restoreScrollPosition();
+
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
   }
 
   setClosePopapHandler(callback) {
