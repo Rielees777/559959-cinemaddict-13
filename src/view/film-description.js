@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import Smart from "./smart.js";
-import {COMMONCONST, emodjIcon} from "../utils/const.js";
+import {EMODJILIST} from "../const.js";
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
   <span class="film-details__comment-emoji">
@@ -17,19 +17,21 @@ const createCommentsTemplate = (comments) => {
     </li>`).join(``);
 };
 
+const createEmodjiTemplate = (emodji) => {
+  return emodji !== `` ? `<img src="./images/emoji/${emodji}.png" width="55" height="55" alt="emoji-${emodji}">` : ``;
+};
 
-const checkFlagStatus = (value) => value ? `checked` : ``;
-
-const createEmodjiList = (emotion) => {
-  return COMMONCONST.emodjiList.map((emodji) =>
-    ` <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emodji}" value="${emodji}" ${checkFlagStatus(emodji === emotion)}>
+const createEmodjiList = () => {
+  return EMODJILIST.map((emodji) =>
+    ` <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emodji}" value="${emodji}">
     <label class="film-details__emoji-label" for="emoji-${emodji}">
     <img src="./images/emoji/${emodji}.png" width="30" height="30" alt="emoji"></label>
     `).join(``);
 };
 
 const createFullFilmDescription = (film) => {
-  const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments} = film;
+  const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments, emodji} = film;
+
   const date = dayjs(realizeDate).format(`DD MMMM YYYY`);
 
   return `<section class="film-details">
@@ -102,7 +104,7 @@ const createFullFilmDescription = (film) => {
                   <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
                   <ul class="film-details__comments-list">${createCommentsTemplate(comments)}</ul>
   <div class="film-details__new-comment">
-  <div class="film-details__add-emoji-label"></div>
+  <div class="film-details__add-emoji-label">${createEmodjiTemplate(emodji)}</div>
    <label class="film-details__comment-label">
     <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
    </label>
@@ -119,31 +121,25 @@ const createFullFilmDescription = (film) => {
 export default class FullFilmDescription extends Smart {
   constructor(film) {
     super();
-    this._film = film;
-    this._data = {
-      text: ``,
-      emodji: ``
-    };
+
+    this._data = FullFilmDescription.parseFilmToData(film);
 
     this._scrollPosition = 0;
 
-    this._closePopapHandler = this._closePopapHandler.bind(this);
+    this._closePopapHandler = this._closePopupHandler.bind(this);
     this._emodjiePickerHandler = this._emodjiePickerHandler.bind(this);
 
     this._setInnerHandlers();
   }
 
   getTemplate() {
-    return createFullFilmDescription(this._film);
+    return createFullFilmDescription(this._data);
   }
 
   _setInnerHandlers() {
     this.getElement()
-      .querySelectorAll(`.film-details__emoji-item`)
-      .forEach((element) => {
-        element.addEventListener(`change`, this._emodjiePickerHandler);
-      });
-
+      .querySelector(`.film-details__emoji-list`)
+      .addEventListener(`change`, this._emodjiePickerHandler);
   }
 
   _setScrollPosition() {
@@ -154,23 +150,18 @@ export default class FullFilmDescription extends Smart {
     this._element.scrollTo({top: this._scrollPosition});
   }
 
-  _closePopapHandler(evt) {
+  _closePopupHandler(evt) {
     evt.preventDefault();
-    this._closePopapHandler.closePopap();
+    this._callback.closePopap();
   }
 
   _emodjiePickerHandler(evt) {
     evt.preventDefault();
     this._setScrollPosition();
+
     this.updateData({
       emodji: evt.target.value
     });
-
-    const emodjiPosition = this.getElement().querySelector(`.film-details__add-emoji-label`);
-    if (emodjiPosition.firstChild) {
-      emodjiPosition.firstChild.remove();
-    }
-    emodjiPosition.append(emodjIcon(evt.target.value));
 
     this._restoreScrollPosition();
 
@@ -178,10 +169,15 @@ export default class FullFilmDescription extends Smart {
 
   restoreHandlers() {
     this._setInnerHandlers();
+    this.setClosePopupHandler(this._callback.closePopap);
   }
 
-  setClosePopapHandler(callback) {
-    this._closePopapHandler.closePopap = callback;
+  setClosePopupHandler(callback) {
+    this._callback.closePopap = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopapHandler);
+  }
+
+  static parseFilmToData(film) {
+    return Object.assign({}, film, {text: ``, emodji: ``});
   }
 }
