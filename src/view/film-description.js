@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import Smart from "./smart.js";
 import {EMODJIS} from "../const.js";
+const emodji = ``;
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
   <span class="film-details__comment-emoji">
@@ -29,9 +30,9 @@ const createEmodjiList = () => {
     `).join(``);
 };
 
-const createFullFilmDescription = (film) => {
-  const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments, emodji} = film;
-
+const createFullFilmDescription = (film, commentData) => {
+  const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments} = film;
+  const emodji = commentData;
   const date = dayjs(realizeDate).format(`DD MMMM YYYY`);
 
   return `<section class="film-details">
@@ -123,17 +124,18 @@ export default class FullFilmDescription extends Smart {
     super();
 
     this._data = FullFilmDescription.parseFilmToData(film);
+    this._data.emodji = ``;
 
     this._scrollPosition = 0;
 
-    this._closePopapHandler = this._closePopupHandler.bind(this);
+    this._closePopupHandler = this._closePopupHandler.bind(this);
     this._emodjiePickerHandler = this._emodjiePickerHandler.bind(this);
 
     this._setInnerHandlers();
   }
 
   getTemplate() {
-    return createFullFilmDescription(this._data);
+    return createFullFilmDescription(this._data, this._data.emodji);
   }
 
   _setInnerHandlers() {
@@ -152,7 +154,7 @@ export default class FullFilmDescription extends Smart {
 
   _closePopupHandler(evt) {
     evt.preventDefault();
-    this._callback.closePopap();
+    this._callback.closePopup();
   }
 
   _emodjiePickerHandler(evt) {
@@ -163,19 +165,18 @@ export default class FullFilmDescription extends Smart {
       emodji: evt.target.value
     });
 
-    this._data = FullFilmDescription.parseDataToFilm(this._data);
     this._restoreScrollPosition();
 
   }
 
   restoreHandlers() {
     this._setInnerHandlers();
-    this.setClosePopupHandler(this._callback.closePopap);
+    this.setClosePopupHandler(this._callback.closePopup);
   }
 
   setClosePopupHandler(callback) {
-    this._callback.closePopap = callback;
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopapHandler);
+    this._callback.closePopup = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopupHandler);
   }
 
   static parseFilmToData(film) {

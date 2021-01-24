@@ -5,3 +5,9 @@ export const EMODJIS = [
   `puke`,
   `angry`
 ];
+
+export const SortType = {
+  DEFAULT: `default`,
+  BY_DATE: `date-down`,
+  BY_RATING: `rating-down`
+};

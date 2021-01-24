@@ -1,7 +1,6 @@
 
 import SiteMenuView from "./view/menu.js";
 import UserRank from "./view/user-rank.js";
-import SortFilter from "./view/sort-filter.js";
 import FilmCounter from "./view/filmCounter.js";
 import Board from "./presenter/board.js";
 import {generateFilm} from "./mock/film.js";
@@ -21,9 +20,9 @@ render(siteHeaderElement, new UserRank().getElement(), RenderPosition.BEFOREEND)
 
 const boardPresenter = new Board(siteMainElement);
 
-render(siteMainElement, new SiteMenuView(filter).getElement(), RenderPosition.AFTERBEGIN);
-render(siteMainElement, new SortFilter().getElement(), RenderPosition.BEFOREEND);
 boardPresenter.init(films);
+
+render(siteMainElement, new SiteMenuView(filter).getElement(), RenderPosition.AFTERBEGIN);
 
 // const siteFilmsListExtra = filmBoardComponent.getElement().querySelectorAll(`.films-list--extra`);
 
