@@ -32,7 +32,7 @@ export default class Film {
     this._filmComponent.setWatchlistHandler(this._handleWatchlistClick);
     this._filmComponent.setHistoryHandler(this._handleHistoryClick);
     this._filmComponent.setFavoriteHandler(this._handleFavoriteClick);
-    this._fullFilmComponent.setClosePopapHandler(this._handleClosePopup);
+    this._fullFilmComponent.setClosePopupHandler(this._handleClosePopup);
 
     if (prevFilmComponent === null || prevFullFilmComponent === null) {
       render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
@@ -64,37 +64,13 @@ export default class Film {
   }
 
   _handleWatchlistClick() {
-    this._changeData(
-      Object.assign(
-        {},
-        this._film,
-        {
-          isWatchList: !this._film.isWatchList
-        }
-      )
-    );
+    this._changeData(Object.assign({}, this._film, {isWatchList: !this._film.isWatchList}));
   }
   _handleHistoryClick() {
-    this._changeData(
-      Object.assign(
-        {},
-        this._film,
-        {
-          isHistoryList: !this._film.isHistoryList
-        }
-      )
-    );
+    this._changeData(Object.assign({}, this._film, {isHistoryList: !this._film.isHistoryList}));
   }
   _handleFavoriteClick() {
-    this._changeData(
-      Object.assign(
-        {},
-        this._film,
-        {
-          isFavoriteList: !this._film.isFavoriteList
-        }
-      )
-    );
+    this._changeData(Object.assign({}, this._film, {isFavoriteList: !this._film.isFavoriteList}));
   }
 
   _handleClosePopup() {
