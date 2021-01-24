@@ -1,5 +1,5 @@
 
-export const EMODJILIST = [
+export const EMODJIS = [
   `smile`,
   `sleeping`,
   `puke`,

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import Smart from "./smart.js";
-import {EMODJILIST} from "../const.js";
+import {EMODJIS} from "../const.js";
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
   <span class="film-details__comment-emoji">
@@ -22,7 +22,7 @@ const createEmodjiTemplate = (emodji) => {
 };
 
 const createEmodjiList = () => {
-  return EMODJILIST.map((emodji) =>
+  return EMODJIS.map((emodji) =>
     ` <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emodji}" value="${emodji}">
     <label class="film-details__emoji-label" for="emoji-${emodji}">
     <img src="./images/emoji/${emodji}.png" width="30" height="30" alt="emoji"></label>
@@ -163,6 +163,7 @@ export default class FullFilmDescription extends Smart {
       emodji: evt.target.value
     });
 
+    this._data = FullFilmDescription.parseDataToFilm(this._data);
     this._restoreScrollPosition();
 
   }
@@ -179,5 +180,8 @@ export default class FullFilmDescription extends Smart {
 
   static parseFilmToData(film) {
     return Object.assign({}, film, {text: ``, emodji: ``});
+  }
+  static parseDataToFilm(data) {
+    return Object.assign({}, data);
   }
 }
