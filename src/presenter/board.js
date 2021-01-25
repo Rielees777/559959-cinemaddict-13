@@ -26,6 +26,7 @@ export default class Board {
     this._showMoreButtonComponent = new ShowMoreButton();
 
     this._handleFilmChange = this._handleFilmChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
@@ -40,6 +41,11 @@ export default class Board {
     render(this._filmListComponent, this._filmWrapComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
+  }
+  _handleModeChange() {
+    Object
+      .values(this._filmPresenter)
+      .forEach((presenter) => presenter.resetView())
   }
 
   _sortFilms(sortType) {
@@ -75,7 +81,7 @@ export default class Board {
   }
 
   _renderFilm(film) {
-    const filmPresenter = new FilmPresenter(this._filmWrapComponent, this._handleFilmChange);
+    const filmPresenter = new FilmPresenter(this._filmWrapComponent, this._handleFilmChange, this._handleModeChange);
     filmPresenter.init(film);
     this._filmPresenter[film.id] = filmPresenter;
   }

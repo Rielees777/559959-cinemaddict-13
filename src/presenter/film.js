@@ -2,14 +2,21 @@ import FilmCard from "../view/film-card.js";
 import FullFilmDescription from "../view/film-description.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 
+const Mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP_OPEN: `POPUP_OPEN`
+};
+
 export default class Film {
-  constructor(filmListContainer, changeData) {
+  constructor(filmListContainer, changeData, changeMode) {
     this._filmListContainer = filmListContainer;
     this._changeData = changeData;
+    this._changeMode = changeMode;
     this._siteBodyContaner = document.querySelector(`body`);
 
     this._filmComponent = null;
     this._fullFilmComponent = null;
+    this._mode = Mode.DEFAULT;
 
     this._handleOpenPopup = this._handleOpenPopup.bind(this);
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
@@ -39,11 +46,11 @@ export default class Film {
       return;
     }
 
-    if (this._filmListContainer.getElement().contains(prevFilmComponent.getElement())) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._filmComponent, prevFilmComponent);
     }
 
-    if (this._siteBodyContaner.contains(prevFullFilmComponent.getElement())) {
+    if (this._mode === Mode.POPUP_OPEN) {
       replace(this._fullFilmComponent, prevFullFilmComponent);
     }
 
@@ -57,10 +64,19 @@ export default class Film {
     remove(this._fullFilmComponent);
   }
 
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._handleClosePopup();
+    }
+  }
+
   _handleOpenPopup() {
     this._siteBodyContaner.appendChild(this._fullFilmComponent.getElement());
     this._siteBodyContaner.className = `hide-overflow`;
     document.addEventListener(`keydown`, this._escKeyDownHandler);
+
+    this._changeMode();
+    this._mode = Mode.POPUP_OPEN;
   }
 
   _handleWatchlistClick() {
@@ -77,6 +93,7 @@ export default class Film {
     this._siteBodyContaner.removeChild(this._fullFilmComponent.getElement());
     this._siteBodyContaner.classList.remove(`hide-overflow`);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
+    this._mode = Mode.DEFAULT;
   }
 
   _escKeyDownHandler(evt) {
