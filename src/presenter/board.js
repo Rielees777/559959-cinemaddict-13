@@ -7,7 +7,7 @@ import {updateItem} from "../utils/common.js";
 import {sortFilmByDate, sortFilmByRating} from "../utils/film.js";
 import ShowMoreButton from "../view/load-more-button.js";
 import {remove, render, RenderPosition} from "../utils/render.js";
-import {SortType} from "../const.js";
+import {SortType, UpdateType, UserAction} from "../const.js";
 
 const FILMS_COUNT_PER_STEP = 5;
 
@@ -26,7 +26,8 @@ export default class Board {
     this._sortComponent = new SortFilter();
     this._showMoreButtonComponent = new ShowMoreButton();
 
-    this._handleFilmChange = this._handleFilmChange.bind(this);
+    this._handleViewAction = this._handleViewAction.bind(this);
+    this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
@@ -77,15 +78,35 @@ export default class Board {
   }
 
   _renderFilm(film) {
-    const filmPresenter = new FilmPresenter(this._filmWrapComponent, this._handleFilmChange, this._handleModeChange);
+    const filmPresenter = new FilmPresenter(this._filmWrapComponent, this._handleViewAction, this._handleModeChange);
     filmPresenter.init(film);
     this._filmPresenter[film.id] = filmPresenter;
   }
 
-  _handleFilmChange(updatedFilm) {
-    this._boardFilms = updateItem(this._boardFilms, updatedFilm);
-    this._filmPresenter[updatedFilm.id].init(updatedFilm);
-  }
+ _handleViewAction(actionType, updateType, update) {
+   switch (actionType) {
+     case UserAction.CHANGE_FILTER:
+       this._filmModel.updateFilm(updateType, update);
+       break;
+     case UserAction.ADD_COMMENT:
+       break;
+     case UserAction.DELETE_COMMENT:
+       break;    
+   }
+ }
+
+ _handleModelEvent(updateType, data) {
+   switch (updateType) {
+     case UpdateType.PATCH:
+       this._filmPresenter[data.id].init(data);
+       break;
+     case UpdateType.MINOR:
+       break;
+     case UpdateType.MAJOR:
+       break;
+
+   }
+ }
 
   _renderFilms(films) {
     films.forEach((film) => this._renderFilm(film));
