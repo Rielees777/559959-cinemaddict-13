@@ -1,5 +1,5 @@
 import Abstract from "./abstract.js";
-import {SortType} from "../const.js"
+import {SortType} from "../const.js";
 
 const createSortFilterTemplate = (currenSortType) => {
   return `<ul class="sort">

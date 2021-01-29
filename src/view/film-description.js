@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import Smart from "./smart.js";
 import {EMODJIS} from "../const.js";
-const emodji = ``;
+
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
   <span class="film-details__comment-emoji">

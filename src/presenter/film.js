@@ -82,18 +82,18 @@ export default class Film {
 
   _handleWatchlistClick() {
     this._changeData(
-      UserAction.CHANGE_FILTER,
-      UpdateType.PATCH,
-      Object.assign({}, this._film, {isWatchList: !this._film.isWatchList}));
+        UserAction.CHANGE_FILTER,
+        UpdateType.PATCH,
+        Object.assign({}, this._film, {isWatchList: !this._film.isWatchList}));
   }
   _handleHistoryClick() {
-     this._changeData(
-       UserAction.CHANGE_FILTER,
-       UpdateType.PATCH,
-       Object.assign({}, this._film, {isHistoryList: !this._film.isHistoryList}));
+    this._changeData(
+        UserAction.CHANGE_FILTER,
+        UpdateType.PATCH,
+        Object.assign({}, this._film, {isHistoryList: !this._film.isHistoryList}));
   }
   _handleFavoriteClick() {
-      this._changeData(
+    this._changeData(
         UserAction.CHANGE_FILTER,
         UpdateType.PATCH,
         Object.assign({}, this._film, {isFavoriteList: !this._film.isFavoriteList}));

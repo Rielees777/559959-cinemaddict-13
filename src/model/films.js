@@ -45,7 +45,7 @@ export default class Films extends Observer {
 
     if (index === -1) {
       throw new Error(`Can't delete unexisting comment`);
-    } 
+    }
 
     this._films = [
       ...this._films.slice(0, index),

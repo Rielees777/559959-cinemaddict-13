@@ -25,12 +25,10 @@ const siteFooter = document.querySelector(`.footer`);
 render(siteHeaderElement, new UserRank().getElement(), RenderPosition.BEFOREEND);
 
 const boardPresenter = new Board(siteMainElement, filmModel, filterModel);
-const filterPresetner = new Filter(siteMainElement, filterModel, filmModel)
+const filterPresetner = new Filter(siteMainElement, filterModel, filmModel);
 
 filterPresetner.init();
 boardPresenter.init();
-
-
 
 
 // const siteFilmsListExtra = filmBoardComponent.getElement().querySelectorAll(`.films-list--extra`);

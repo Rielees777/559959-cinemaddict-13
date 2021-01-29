@@ -20,9 +20,9 @@ export const sortFilmByDate = (filmA, filmB) => {
   if (weight) {
     return weight;
   }
-  return dayjs(filmB.realizeDate).diff(dayjs(filmA.realizeDate))
+  return dayjs(filmB.realizeDate).diff(dayjs(filmA.realizeDate));
 };
 
 export const sortFilmByRating = (filmA, filmB) => {
   return filmB.rating - filmA.rating;
-}
+};

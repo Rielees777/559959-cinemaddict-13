@@ -3,7 +3,6 @@ import FilmBoardView from "../view/film-board.js";
 import FilmWrapView from "../view/film-wrap.js";
 import FilmPresenter from "./film.js";
 import SortFilter from "../view/sort-filter.js";
-import {updateItem} from "../utils/common.js";
 import {sortFilmByDate, sortFilmByRating} from "../utils/film.js";
 import ShowMoreButton from "../view/load-more-button.js";
 import {remove, render, RenderPosition} from "../utils/render.js";
@@ -28,7 +27,6 @@ export default class Board {
     this._filmListComponent = new FilmListView();
     this._filmBoardComponent = new FilmBoardView();
     this._filmWrapComponent = new FilmWrapView();
-    
 
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
@@ -57,54 +55,54 @@ export default class Board {
       case SortType.BY_DATE:
         return filtredFilms.sort(sortFilmByDate);
       case SortType.BY_RATING:
-        return filtredFilms.sort(sortFilmByRating);  
-
+        return filtredFilms.sort(sortFilmByRating);
     }
+
     return filtredFilms;
   }
 
   _handleModeChange() {
     Object
       .values(this._filmPresenter)
-      .forEach((presenter) => presenter.resetView())
+      .forEach((presenter) => presenter.resetView());
   }
 
   _handleViewAction(actionType, updateType, update) {
-   switch (actionType) {
-     case UserAction.CHANGE_FILTER:
-       this._filmModel.updateFilm(updateType, update);
-       break;
-     case UserAction.ADD_COMMENT:
-       break;
-     case UserAction.DELETE_COMMENT:
-       break;    
-   }
- }
+    switch (actionType) {
+      case UserAction.CHANGE_FILTER:
+        this._filmModel.updateFilm(updateType, update);
+        break;
+      case UserAction.ADD_COMMENT:
+        break;
+      case UserAction.DELETE_COMMENT:
+        break;
+    }
+  }
 
- _handleModelEvent(updateType, data) {
-   switch (updateType) {
-     case UpdateType.PATCH:
-       this._filmPresenter[data.id].init(data);
-       break;
-     case UpdateType.MINOR:
+  _handleModelEvent(updateType, data) {
+    switch (updateType) {
+      case UpdateType.PATCH:
+        this._filmPresenter[data.id].init(data);
+        break;
+      case UpdateType.MINOR:
 
-       this._clearBoard();
-       this._renderBoard();
-       break;
-     case UpdateType.MAJOR:
-       this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
-       this._renderBoard();
-       break;
+        this._clearBoard();
+        this._renderBoard();
+        break;
+      case UpdateType.MAJOR:
+        this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
+        this._renderBoard();
+        break;
 
-   }
- }
+    }
+  }
 
   _handleSortTypeChange(sortType) {
     if (this._currenSortType === sortType) {
       return;
     }
 
-   this._currenSortType = sortType;
+    this._currenSortType = sortType;
 
     this._clearBoard({resetRenderedFilmCount: true});
     this._renderBoard();
@@ -118,7 +116,7 @@ export default class Board {
 
     this._sortComponent = new SortFilter(this._currenSortType);
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
-     render(this._filmBoardComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
+    render(this._boardContainer, this._sortComponent, RenderPosition.AFTERBEGIN);
   }
 
   _renderFilm(film) {
@@ -127,7 +125,6 @@ export default class Board {
     this._filmPresenter[film.id] = filmPresenter;
   }
 
- 
 
   _renderFilms(films) {
     films.forEach((film) => this._renderFilm(film));
@@ -149,13 +146,12 @@ export default class Board {
     if (this._showMoreButtonComponent !== null) {
       this._showMoreButtonComponent = null;
     }
-    
+
     this._showMoreButtonComponent = new ShowMoreButton();
     this._showMoreButtonComponent.setClickHandler(this._handleShowMoreButtonClick);
     render(this._filmBoardComponent, this._showMoreButtonComponent, RenderPosition.BEFOREEND);
   }
 
- 
 
   _clearBoard({resetRenderedFilmCount = false, resetSortType = false} = {}) {
     const filmCount = this._getFilms().length;
@@ -163,7 +159,7 @@ export default class Board {
     Object
       .values(this._filmPresenter)
       .forEach((presenter) => presenter.destroy());
-    
+
     this._filmPresenter = {};
 
     remove(this._sortComponent);
@@ -188,10 +184,10 @@ export default class Board {
 
     this._renderSort();
     this._renderFilms(films.slice(0, Math.min(filmCount, this._renderedFilmsCount)));
-    
+
 
     if (filmCount > this._renderedFilmsCount) {
-      this._renderShowMoreButton()
+      this._renderShowMoreButton();
     }
   }
 }
