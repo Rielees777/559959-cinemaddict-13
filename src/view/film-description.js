@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import Smart from "./smart.js";
-import {EMODJILIST} from "../const.js";
+import {EMODJIS} from "../const.js";
+
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
   <span class="film-details__comment-emoji">
@@ -22,16 +23,16 @@ const createEmodjiTemplate = (emodji) => {
 };
 
 const createEmodjiList = () => {
-  return EMODJILIST.map((emodji) =>
+  return EMODJIS.map((emodji) =>
     ` <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emodji}" value="${emodji}">
     <label class="film-details__emoji-label" for="emoji-${emodji}">
     <img src="./images/emoji/${emodji}.png" width="30" height="30" alt="emoji"></label>
     `).join(``);
 };
 
-const createFullFilmDescription = (film) => {
-  const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments, emodji} = film;
-
+const createFullFilmDescription = (film, commentData) => {
+  const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments} = film;
+  const emodji = commentData;
   const date = dayjs(realizeDate).format(`DD MMMM YYYY`);
 
   return `<section class="film-details">
@@ -123,17 +124,18 @@ export default class FullFilmDescription extends Smart {
     super();
 
     this._data = FullFilmDescription.parseFilmToData(film);
+    this._data.emodji = ``;
 
     this._scrollPosition = 0;
 
-    this._closePopapHandler = this._closePopupHandler.bind(this);
+    this._closePopupHandler = this._closePopupHandler.bind(this);
     this._emodjiePickerHandler = this._emodjiePickerHandler.bind(this);
 
     this._setInnerHandlers();
   }
 
   getTemplate() {
-    return createFullFilmDescription(this._data);
+    return createFullFilmDescription(this._data, this._data.emodji);
   }
 
   _setInnerHandlers() {
@@ -152,7 +154,7 @@ export default class FullFilmDescription extends Smart {
 
   _closePopupHandler(evt) {
     evt.preventDefault();
-    this._callback.closePopap();
+    this._callback.closePopup();
   }
 
   _emodjiePickerHandler(evt) {
@@ -169,15 +171,18 @@ export default class FullFilmDescription extends Smart {
 
   restoreHandlers() {
     this._setInnerHandlers();
-    this.setClosePopupHandler(this._callback.closePopap);
+    this.setClosePopupHandler(this._callback.closePopup);
   }
 
   setClosePopupHandler(callback) {
-    this._callback.closePopap = callback;
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopapHandler);
+    this._callback.closePopup = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopupHandler);
   }
 
   static parseFilmToData(film) {
     return Object.assign({}, film, {text: ``, emodji: ``});
+  }
+  static parseDataToFilm(data) {
+    return Object.assign({}, data);
   }
 }
