@@ -3,6 +3,7 @@ import Smart from "./smart.js";
 import {EMODJIS} from "../const.js";
 
 const createCommentsTemplate = (comments) => {
+
   return comments.map((comment) => `<li class="film-details__comment">
   <span class="film-details__comment-emoji">
     <img src="./images/emoji/${comment.commentsEmoji}.png" width="55" height="55" alt="emoji-${comment.commentsEmoji}">

@@ -29,7 +29,7 @@ const filterModel = new FilterModel();
 render(siteHeaderElement, new UserRank().getElement(), RenderPosition.BEFOREEND);
 
 const boardPresenter = new Board(siteMainElement, filmModel, filterModel, api);
-const filterPresetner = new Filter(siteMainElement, filterModel, filmModel);
+const filterPresentner = new Filter(siteMainElement, filterModel, filmModel);
 
 
 
@@ -40,7 +40,7 @@ api.getFilms()
   .catch(() => {
     filmModel.setFilms(UpdateType.INIT, []);
   })
-filterPresetner.init();
+filterPresentner.init();
 boardPresenter.init();
 // const siteFilmsListExtra = filmBoardComponent.getElement().querySelectorAll(`.films-list--extra`);
 

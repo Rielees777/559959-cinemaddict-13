@@ -36,7 +36,7 @@ export default class Films extends Observer {
 
   setComments(updateType, update) {
     const film = this._films.find((item) => item.id === update.id);
-    console.log(film.comments);
+
     film.comments = update.comments;
 
     this._notify(updateType, update);

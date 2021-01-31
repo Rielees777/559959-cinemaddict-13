@@ -57,7 +57,6 @@ export default class Film {
       replace(this._fullFilmComponent, prevFullFilmComponent);
     }
 
-    remove(prevFilmComponent);
     remove(prevFullFilmComponent);
 
   }
@@ -105,14 +104,12 @@ export default class Film {
   _handleCommentLoad(comments) {
     this._changeData(
       UserAction.LOAD_COMMENTS,
-      UpdateType.PATCH, {
-      "id": this._film.id,
-      "comments": comments
-    });
+      UpdateType.PATCH,
+      Object.assign({}, this._film, {"id": this._film.id, "comments": comments}));
   }
 
   _loadComment() {
-    this._api.getComment(this._film)
+    this._api.getComments(this._film)
       .then((comments) => {
         this._handleCommentLoad(comments);
       });

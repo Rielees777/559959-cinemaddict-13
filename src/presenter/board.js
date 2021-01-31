@@ -82,10 +82,10 @@ export default class Board {
     }
   }
 
-  _handleModelEvent(updateType, data) {
+  _handleModelEvent(updateType, film) {
     switch (updateType) {
       case UpdateType.PATCH:
-        this._filmPresenter[data.id].init(data);
+        this._filmPresenter[film.id].init(film);
         break;
       case UpdateType.MINOR:
 
@@ -94,6 +94,7 @@ export default class Board {
         break;
       case UpdateType.MAJOR:
         this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
+        this._renderBoard();
         break;
       case UpdateType.INIT:
 

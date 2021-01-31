@@ -16,7 +16,7 @@ export default class Api {
     this._authorization = authorization;
   }
 
-  getComment(film) {
+  getComments(film) {
     return this._load({url: `/comments/${film.id}`})
       .then(Api.toJSON)
       .then((comments) => comments.map(FilmModel.adaptCommentToClient));
