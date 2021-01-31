@@ -15,13 +15,15 @@ export const SortType = {
 export const UserAction = {
   ADD_COMMENT: `ADD_COMMENT`,
   DELETE_COMMENT: `DELETE_COMMENT`,
-  CHANGE_FILTER: `CHANGE_FILTER`
+  CHANGE_FILTER: `CHANGE_FILTER`,
+  LOAD_COMMENTS: `LOAD_COMMENTS`
 };
 
 export const UpdateType = {
   PATCH: `PATCH`,
   MINOR: `MINOR`,
-  MAJOR: `MAJOR`
+  MAJOR: `MAJOR`,
+  INIT: `INIT`
 };
 
 export const FilterType = {

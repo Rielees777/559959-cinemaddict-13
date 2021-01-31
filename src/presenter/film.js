@@ -9,10 +9,11 @@ const Mode = {
 };
 
 export default class Film {
-  constructor(filmListContainer, changeData, changeMode) {
+  constructor(filmListContainer, changeData, changeMode, api) {
     this._filmListContainer = filmListContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
+    this._api = api;
     this._siteBodyContaner = document.querySelector(`body`);
 
     this._filmComponent = null;
@@ -20,6 +21,7 @@ export default class Film {
     this._mode = Mode.DEFAULT;
 
     this._handleOpenPopup = this._handleOpenPopup.bind(this);
+    this._handleCommentLoad = this._handleCommentLoad.bind(this);
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleHistoryClick = this._handleHistoryClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
@@ -78,25 +80,42 @@ export default class Film {
 
     this._changeMode();
     this._mode = Mode.POPUP_OPEN;
+    this._loadComment();
   }
 
   _handleWatchlistClick() {
     this._changeData(
-        UserAction.CHANGE_FILTER,
-        UpdateType.PATCH,
-        Object.assign({}, this._film, {isWatchList: !this._film.isWatchList}));
+      UserAction.CHANGE_FILTER,
+      UpdateType.PATCH,
+      Object.assign({}, this._film, {isWatchList: !this._film.isWatchList}));
   }
   _handleHistoryClick() {
     this._changeData(
-        UserAction.CHANGE_FILTER,
-        UpdateType.PATCH,
-        Object.assign({}, this._film, {isHistoryList: !this._film.isHistoryList}));
+      UserAction.CHANGE_FILTER,
+      UpdateType.PATCH,
+      Object.assign({}, this._film, {isHistoryList: !this._film.isHistoryList}));
   }
   _handleFavoriteClick() {
     this._changeData(
-        UserAction.CHANGE_FILTER,
-        UpdateType.PATCH,
-        Object.assign({}, this._film, {isFavoriteList: !this._film.isFavoriteList}));
+      UserAction.CHANGE_FILTER,
+      UpdateType.PATCH,
+      Object.assign({}, this._film, {isFavoriteList: !this._film.isFavoriteList}));
+  }
+
+  _handleCommentLoad(comments) {
+    this._changeData(
+      UserAction.LOAD_COMMENTS,
+      UpdateType.PATCH, {
+      "id": this._film.id,
+      "comments": comments
+    });
+  }
+
+  _loadComment() {
+    this._api.getComment(this._film)
+      .then((comments) => {
+        this._handleCommentLoad(comments);
+      });
   }
 
   _handleClosePopup() {

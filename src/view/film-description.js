@@ -33,6 +33,7 @@ const createEmodjiList = () => {
 const createFullFilmDescription = (film, commentData) => {
   const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments} = film;
   const emodji = commentData;
+
   const date = dayjs(realizeDate).format(`DD MMMM YYYY`);
 
   return `<section class="film-details">
@@ -123,8 +124,11 @@ export default class FullFilmDescription extends Smart {
   constructor(film) {
     super();
 
-    this._data = FullFilmDescription.parseFilmToData(film);
-    this._data.emodji = ``;
+    this._film = FullFilmDescription.parseFilmToData(film);
+    this._data = {
+      text: ``,
+      emodji: ``
+    };
 
     this._scrollPosition = 0;
 
@@ -135,7 +139,7 @@ export default class FullFilmDescription extends Smart {
   }
 
   getTemplate() {
-    return createFullFilmDescription(this._data, this._data.emodji);
+    return createFullFilmDescription(this._film, this._data.emodji);
   }
 
   _setInnerHandlers() {

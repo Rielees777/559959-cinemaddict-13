@@ -42,7 +42,6 @@ export const generateFilm = () => {
     country: getRandomElement(filmsMock.countries),
     description: getRandomElement(filmsMock.descriptions),
     comments: getComments(),
-    emodji: ``,
     realizeDate: generateDate(),
     rating: getRandomInteger(0, 9) + Math.round(Math.random() * 10) / 10,
     duration: getRandomElement(filmsMock.durationTimes),

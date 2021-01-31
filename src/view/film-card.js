@@ -25,13 +25,15 @@ const createFilmCard = (film) => {
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info"><span class="film-card__year">${date}</span>
           <span class="film-card__duration">${duration}</span>
-          <span class="film-card__genre">${genre}</span></p>
+          <span class="film-card__genre">${genre[0]}</span></p>
           <img src=${poster} alt="" class="film-card__poster">
           <p class="film-card__description">${getShortDescription(description)}</p>
-          <a class="film-card__comments">${comments.length} comments</a><div class="film-card__controls">
+          <a class="film-card__comments">${comments.length} comments</a>
+          <div class="film-card__controls">
           <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${getFilterClassName(isWatchList)}" type="button">Add to watchlist</button>
           <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${getFilterClassName(isHistoryList)}" type="button">Mark as watched</button>
-          <button class="film-card__controls-item button film-card__controls-item--favorite ${getFilterClassName(isFavoriteList)}" type="button">Mark as favorite</button></div></article>`
+          <button class="film-card__controls-item button film-card__controls-item--favorite ${getFilterClassName(isFavoriteList)}" type="button">Mark as favorite</button></div>
+          </article>`
   );
 };
 

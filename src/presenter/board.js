@@ -13,13 +13,14 @@ const FILMS_COUNT_PER_STEP = 5;
 
 
 export default class Board {
-  constructor(boardContainer, filmModel, filterModel) {
+  constructor(boardContainer, filmModel, filterModel, api) {
     this._filmModel = filmModel;
     this._filterModel = filterModel;
     this._boardContainer = boardContainer;
     this._renderedFilmsCount = FILMS_COUNT_PER_STEP;
     this._filmPresenter = {};
     this._currenSortType = SortType.DEFAULT;
+    this._api = api;
 
     this._sortComponent = null;
     this._showMoreButtonComponent = null;
@@ -43,7 +44,6 @@ export default class Board {
     render(this._filmBoardComponent, this._filmListComponent, RenderPosition.BEFOREEND);
     render(this._filmListComponent, this._filmWrapComponent, RenderPosition.BEFOREEND);
 
-    this._renderBoard();
   }
 
   _getFilms() {
@@ -72,6 +72,9 @@ export default class Board {
       case UserAction.CHANGE_FILTER:
         this._filmModel.updateFilm(updateType, update);
         break;
+      case UserAction.LOAD_COMMENTS:
+        this._filmModel.setComments(updateType, update);
+        break;
       case UserAction.ADD_COMMENT:
         break;
       case UserAction.DELETE_COMMENT:
@@ -91,9 +94,11 @@ export default class Board {
         break;
       case UpdateType.MAJOR:
         this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
+        break;
+      case UpdateType.INIT:
+
         this._renderBoard();
         break;
-
     }
   }
 
@@ -120,7 +125,7 @@ export default class Board {
   }
 
   _renderFilm(film) {
-    const filmPresenter = new FilmPresenter(this._filmWrapComponent, this._handleViewAction, this._handleModeChange);
+    const filmPresenter = new FilmPresenter(this._filmWrapComponent, this._handleViewAction, this._handleModeChange, this._api);
     filmPresenter.init(film);
     this._filmPresenter[film.id] = filmPresenter;
   }
