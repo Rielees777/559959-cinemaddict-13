@@ -56,6 +56,8 @@ export default class FilmCard extends Abstract {
     evt.preventDefault();
     if (handleElements.includes(evt.target.className)) {
       this._callback.openPopap();
+    } else {
+      return;
     }
   }
 

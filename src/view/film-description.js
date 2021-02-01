@@ -32,7 +32,7 @@ const createEmodjiList = () => {
 };
 
 const createFullFilmDescription = (film, commentData) => {
-  const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, comments} = film;
+  const {title, originalTitle, poster, directors, writers, actors, country, realizeDate, rating, duration, genre, ageLimit, description, isWatchList, isHistoryList, isFavoriteList, comments} = film;
   const emodji = commentData;
 
   const date = dayjs(realizeDate).format(`DD MMMM YYYY`);
@@ -94,11 +94,11 @@ const createFullFilmDescription = (film, commentData) => {
             </div>
           </div>
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchList ? ` checked` : ``}>
               <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-              <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+              <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isHistoryList ? ` checked` : ``}>
                 <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-                <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+                <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavoriteList ? ` checked` : ``}>
                   <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -135,6 +135,9 @@ export default class FullFilmDescription extends Smart {
 
     this._closePopupHandler = this._closePopupHandler.bind(this);
     this._emodjiePickerHandler = this._emodjiePickerHandler.bind(this);
+    this._watchListClickHandler = this._watchListClickHandler.bind(this);
+    this._historyListClickHandler = this._historyListClickHandler.bind(this);
+    this._favoriteListClickHandler = this._favoriteListClickHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -147,6 +150,19 @@ export default class FullFilmDescription extends Smart {
     this.getElement()
       .querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, this._emodjiePickerHandler);
+  }
+
+  _watchListClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchlistClick();
+  }
+  _historyListClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.historyClick();
+  }
+  _favoriteListClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
   }
 
   _setScrollPosition() {
@@ -178,7 +194,18 @@ export default class FullFilmDescription extends Smart {
     this._setInnerHandlers();
     this.setClosePopupHandler(this._callback.closePopup);
   }
-
+  setWatchlistHandler(callback) {
+    this._callback.watchlistClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._watchListClickHandler)
+  }
+  setHistoryHandler(callback) {
+    this._callback.historyClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._favoriteListClickHandler)
+  }
+  setFavoriteHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._watchListClickHandler)
+  }
   setClosePopupHandler(callback) {
     this._callback.closePopup = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopupHandler);

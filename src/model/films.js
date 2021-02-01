@@ -89,19 +89,25 @@ export default class Films extends Observer {
       }
     );
 
+    delete adaptedFilm.film_info;
+    delete adaptedFilm.user_details;
+
+
     return adaptedFilm;
   }
 
   static adaptToServer(film) {
+
     const adaptedFilm = Object.assign(
       {},
       film,
       {
-        "id": film.id,
+        "id": film.id.toString(),
         "comments": film.comments,
+        "film_info": film.film_info,
         "user_details": {
-          "already_watched": film.isWatchList,
-          "watchlist": film.isHistoryList,
+          "watchlist": film.isWatchList,
+          "already_watched": film.isHistoryList,
           "favorite": film.isFavoriteList
         }
       });
@@ -112,7 +118,7 @@ export default class Films extends Observer {
     return Object.assign({}, {
       commentsText: comment.comment,
       commentsEmoji: comment.emotion,
-      commentsAuthor: comment.commentsAuthor,
+      commentsAuthor: comment.author,
       commentsDay: dayjs(comment.date).format(`YYYY/M/D H:mm`),
       id: comment.id
     });

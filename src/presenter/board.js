@@ -70,7 +70,10 @@ export default class Board {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.CHANGE_FILTER:
-        this._filmModel.updateFilm(updateType, update);
+        this._api.updateFilm(update)
+          .then((response) => {
+            this._filmModel.updateFilm(updateType, response);
+          });
         break;
       case UserAction.LOAD_COMMENTS:
         this._filmModel.setComments(updateType, update);
