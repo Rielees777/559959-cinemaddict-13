@@ -70,6 +70,7 @@ export default class Films extends Observer {
       {},
       film,
       {
+        id: film.id,
         title: film.film_info.title,
         originalTitle: film.film_info.alternative_title,
         poster: film.film_info.poster,
@@ -86,31 +87,46 @@ export default class Films extends Observer {
         isWatchList: film.user_details.watchlist,
         isHistoryList: film.user_details.already_watched,
         isFavoriteList: film.user_details.favorite,
+        watchingDate: film.user_details.watching_date !== null ? new Date(film.user_details.watching_date) : film.user_details.watching_date,
       }
     );
 
-    delete adaptedFilm.film_info;
     delete adaptedFilm.user_details;
-
-
+    delete adaptedFilm.film_info;
     return adaptedFilm;
   }
 
   static adaptToServer(film) {
 
-    const adaptedFilm = Object.assign(
-      {},
-      film,
-      {
-        "id": film.id.toString(),
-        "comments": film.comments,
-        "film_info": film.film_info,
-        "user_details": {
-          "watchlist": film.isWatchList,
-          "already_watched": film.isHistoryList,
-          "favorite": film.isFavoriteList
-        }
-      });
+    const adaptedFilm =
+    {
+      "id": film.id,
+      "comments": film.comments.map((item) => item.id),
+      "film_info": {
+        "title": film.title,
+        "alternative_title": film.originalTitle,
+        "total_rating": film.rating,
+        "poster": film.poster,
+        "age_rating": film.ageLimit,
+        "director": film.director,
+        "writers": film.writers,
+        "actors": film.actors,
+        "release": {
+          "date": film.date instanceof Date ? film.date.toISOString() : null,
+          "release_country": film.country,
+        },
+        "runtime": film.duration,
+        "genre": film.genre,
+        "description": film.description
+      },
+      "user_details": {
+        "watchlist": film.isWatchList,
+        "already_watched": film.isHistoryList,
+        "watching_date": film.watchingDate instanceof Date ? film.watchingDate.toISOString() : null,
+        "favorite": film.isFavoriteList
+      }
+    };
+    console.log(adaptedFilm);
     return adaptedFilm;
   }
 

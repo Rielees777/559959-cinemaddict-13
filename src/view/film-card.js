@@ -16,7 +16,8 @@ const getShortDescription = (text) => {
   return shortDescription;
 };
 const createFilmCard = (film) => {
-  const {title, poster, description, comments, realizeDate, rating, duration, genre, isWatchList, isHistoryList, isFavoriteList} = film;
+  const {title, poster, description, realizeDate, rating, duration, genre, isWatchList, isHistoryList, isFavoriteList, comments} = film;
+
 
   const date = dayjs(realizeDate).format(`YYYY`);
 
